@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import ThemeCard from './ThemeCard';
+
 
 const ThemeButton: React.FC = () => {
   const { currentTheme } = useTheme();
@@ -20,11 +20,7 @@ const ThemeButton: React.FC = () => {
         </div>
       </button>
       
-      {isCardOpen && (
-        <ThemeCard 
-          onClose={() => setIsCardOpen(false)} 
-        />
-      )}
+      {/* ThemeCard component removed due to missing file. You can add a replacement UI here if needed. */}
     </div>
   );
 };
