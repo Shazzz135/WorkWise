@@ -12,10 +12,7 @@ const FontCard: React.FC<FontCardProps> = ({ onClose }) => {
     updateFont(font);
   };
 
-  // Extract colors for styling
-  const primaryColor = currentTheme.primary.startsWith('linear-gradient') ? 
-    currentTheme.primary.match(/#[a-fA-F0-9]{6}/)?.[0] || '#6b7280' : 
-    currentTheme.primary;
+
 
   const secondaryColor = currentTheme.secondary.startsWith('linear-gradient') ? 
     currentTheme.secondary.match(/#[a-fA-F0-9]{6}/)?.[0] || '#ffffff' : 
