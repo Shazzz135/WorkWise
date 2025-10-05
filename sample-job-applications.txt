@@ -1,0 +1,6 @@
+Company Name|Job Title|Job Type|Location|Term|Length|Interest Level|Details|Link|Status
+Google|Software Engineer|Full-time|Mountain View, CA|Full-time|Permanent|5|Exciting opportunity to work on search algorithms|https://careers.google.com/jobs/123|Applied
+Microsoft|Product Manager|Full-time|Seattle, WA|Full-time|Permanent|4|Leading Azure product development team|https://careers.microsoft.com/jobs/456|Interview
+Amazon|Data Scientist|Contract|Remote|Contract|6 months|3|Working on recommendation systems for e-commerce|https://amazon.jobs/en/jobs/789|Considering
+Apple|iOS Developer|Full-time|Cupertino, CA|Full-time|Permanent|5|Developing next-generation mobile applications|https://jobs.apple.com/en-us/details/012|Pending
+Netflix|UI/UX Designer|Full-time|Los Gatos, CA|Full-time|Permanent|4|Designing user interfaces for streaming platform|https://jobs.netflix.com/jobs/345|Applied
