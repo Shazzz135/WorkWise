@@ -408,6 +408,22 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
               boxShadow: `0 4px 12px ${currentTheme.outline}30`,
               transition: 'all 0.2s ease'
             }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = `0 8px 25px ${currentTheme.outline}50`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = `0 4px 12px ${currentTheme.outline}30`;
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = `0 6px 20px ${currentTheme.outline}50`;
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = `0 4px 12px ${currentTheme.outline}30`;
+            }}
           >
             <option value="Applied">Applied</option>
             <option value="Interview">Interview</option>
