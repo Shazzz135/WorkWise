@@ -5,7 +5,8 @@ interface ApplicationContextType {
   applications: JobApplication[];
   addApplication: (app: Omit<JobApplication, 'id'>) => void;
   removeApplication: (id: string) => void;
-  updateApplicationStatus: (id: string, status: 'not-applied' | 'applied' | 'accepted' | 'rejected') => void;
+  updateApplicationStatus: (id: string, status: string) => void;
+  updateApplicationInterest: (id: string, interestLevel: number) => void;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(undefined);
@@ -84,8 +85,12 @@ export const ApplicationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     setApplications(prev => prev.filter(app => app.id !== id));
   };
 
-  const updateApplicationStatus = (id: string, status: 'not-applied' | 'applied' | 'accepted' | 'rejected') => {
+  const updateApplicationStatus = (id: string, status: string) => {
     setApplications(prev => prev.map(app => app.id === id ? { ...app, status } : app));
+  };
+
+  const updateApplicationInterest = (id: string, interestLevel: number) => {
+    setApplications(prev => prev.map(app => app.id === id ? { ...app, interestLevel } : app));
   };
 
   return (
@@ -93,7 +98,8 @@ export const ApplicationProvider: React.FC<{ children: React.ReactNode }> = ({ c
       applications,
       addApplication,
       removeApplication,
-      updateApplicationStatus
+      updateApplicationStatus,
+      updateApplicationInterest
     }}>
       {children}
     </ApplicationContext.Provider>

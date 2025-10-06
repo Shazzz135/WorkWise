@@ -45,6 +45,17 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
   const [localLink, setLocalLink] = useState(link);
   const [localStatus, setLocalStatus] = useState(status);
 
+  // Keep local derived state in sync if parent props change
+  React.useEffect(() => {
+    setLocalInterest(interest);
+  }, [interest]);
+  React.useEffect(() => {
+    setLocalLink(link);
+  }, [link]);
+  React.useEffect(() => {
+    setLocalStatus(status);
+  }, [status]);
+
   // ...existing code...
 
   // Extract solid color from gradient or use as-is if already solid
@@ -381,13 +392,10 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           <select
             value={localStatus}
             onChange={e => {
-              setLocalStatus(e.target.value);
-              // Only allow valid status values
-              const validStatuses = ['not-applied', 'applied', 'accepted', 'rejected'] as const;
-              const value = e.target.value as typeof validStatuses[number];
-              if (validStatuses.includes(value)) {
-                onStatusChange?.(value);
-              }
+              const selected = e.target.value;
+              setLocalStatus(selected);
+              // Call back up to parent/context with the selected status
+              onStatusChange?.(selected as any);
             }}
             style={{
               background: currentTheme.secondary,
@@ -425,12 +433,14 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
               e.currentTarget.style.boxShadow = `0 4px 12px ${currentTheme.outline}30`;
             }}
           >
-            <option value="Applied">Applied</option>
-            <option value="Interview">Interview</option>
-            <option value="Offer">Offer</option>
-            <option value="Rejected">Rejected</option>
-            <option value="Considering">Considering</option>
-            <option value="Pending">Pending</option>
+            <option value="not-applied">Not Applied</option>
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+            <option value="considering">Considering</option>
+            <option value="pending">Pending</option>
           </select>
         </div>
       </div>

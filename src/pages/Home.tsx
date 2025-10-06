@@ -3,7 +3,7 @@ import TemplateCard from '../components/TemplateCard';
 import { useApplications } from '../contexts/ApplicationContext';
 
 const Home: React.FC = () => {
-  const { applications, removeApplication, updateApplicationStatus } = useApplications();
+  const { applications, removeApplication, updateApplicationStatus, updateApplicationInterest } = useApplications();
   return (
     <div className="home-container" style={{ paddingTop: '10px' }}>
       <div className="applications-grid" style={{ paddingTop: '0' }}>
@@ -24,6 +24,7 @@ const Home: React.FC = () => {
             onClick={() => window.open(app.link, '_blank')}
             onRemove={() => removeApplication(app.id)}
             onStatusChange={(newStatus) => updateApplicationStatus(app.id, newStatus)}
+            onInterestChange={(newInterest) => updateApplicationInterest(app.id, newInterest)}
           />
         ))}
       </div>
