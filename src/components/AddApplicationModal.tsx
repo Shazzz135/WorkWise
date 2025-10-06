@@ -13,7 +13,14 @@ const jobTypes = [
   'Full-time', 'Part-time', 'Contract', 'Internship', 'Freelance', 'Remote', 'Hybrid'
 ];
 const statusOptions = [
-  'Applied', 'Interview', 'Offer', 'Rejected', 'Considering', 'Pending'
+  { value: 'not-applied', label: 'Not Applied' },
+  { value: 'applied', label: 'Applied' },
+  { value: 'interview', label: 'Interview' },
+  { value: 'offer', label: 'Offer' },
+  { value: 'accepted', label: 'Accepted' },
+  { value: 'rejected', label: 'Rejected' },
+  { value: 'considering', label: 'Considering' },
+  { value: 'pending', label: 'Pending' }
 ];
 
 const AddApplicationModal: React.FC<AddApplicationModalProps> = ({ isOpen, onClose, onAdd }) => {
@@ -59,7 +66,8 @@ const AddApplicationModal: React.FC<AddApplicationModalProps> = ({ isOpen, onClo
       interestLevel: formData.interestLevel,
       details: formData.details && formData.details.trim() ? formData.details : '-----',
       link: formData.link.trim() ? formData.link.trim() : '-----',
-      status: formData.status && formData.status.trim() ? formData.status : '-----'
+      // store normalized status value that's compatible with TemplateCard
+      status: formData.status && formData.status.trim() ? formData.status : 'not-applied'
     });
     setFormData({
       companyName: '',
@@ -256,8 +264,8 @@ const AddApplicationModal: React.FC<AddApplicationModalProps> = ({ isOpen, onClo
             <label style={{ color: currentTheme.outline, fontFamily: currentTheme.font, fontSize: '0.72rem' }}>Status *</label>
             <select value={formData.status} onChange={e => handleInputChange('status', e.target.value)} required style={{ background: currentTheme.secondary, color: currentTheme.outline, border: `1.08px solid ${currentTheme.outline}`, borderRadius: 4.8, padding: '0.36rem', fontFamily: currentTheme.font, fontSize: '0.72rem' }}>
               <option value="" style={{ color: 'black', background: currentTheme.secondary }}>Select Status</option>
-              {statusOptions.map(status => (
-                <option key={status} value={status} style={{ color: 'black', background: currentTheme.secondary }}>{status}</option>
+              {statusOptions.map(opt => (
+                <option key={opt.value} value={opt.value} style={{ color: 'black', background: currentTheme.secondary }}>{opt.label}</option>
               ))}
             </select>
           </div>

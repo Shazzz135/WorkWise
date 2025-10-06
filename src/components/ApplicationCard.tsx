@@ -1,5 +1,7 @@
 import React from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useState } from 'react';
+import { useApplications } from '../contexts/ApplicationContext';
 
 export interface JobApplication {
   id: string;
@@ -22,6 +24,9 @@ interface ApplicationCardProps {
 
 const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, onRemove }) => {
   const { currentTheme } = useTheme();
+  const { updateApplication } = useApplications();
+  const [isEditing, setIsEditing] = useState(false);
+  const [draft, setDraft] = useState<JobApplication>(application);
   
   const handleClick = () => {
     if (application.link) {
@@ -34,6 +39,28 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, onRemove
     if (onRemove) {
       onRemove(application.id);
     }
+  };
+
+  const handleToggleEdit = (e?: React.MouseEvent) => {
+    e && e.stopPropagation();
+    setIsEditing(v => {
+      if (!v) {
+        setDraft(application);
+      }
+      return !v;
+    });
+  };
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Remove id from draft when passing updates
+    const { id, ...updates } = draft;
+    updateApplication(application.id, updates as Partial<JobApplication>);
+    setIsEditing(false);
+  };
+
+  const handleChange = (key: keyof JobApplication, value: any) => {
+    setDraft(prev => ({ ...prev, [key]: value }));
   };
 
   const getInterestColor = (level: number) => {
@@ -95,8 +122,42 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, onRemove
             </svg>
           </button>
         )}
+        <button
+          className="edit-button"
+          onClick={handleToggleEdit}
+          aria-label="Edit application"
+          style={{
+            marginLeft: '8px',
+            color: currentTheme.secondary,
+            backgroundColor: `${currentTheme.secondary}20`,
+            border: `1px solid ${currentTheme.secondary}40`
+          }}
+        >
+          {isEditing ? 'Cancel' : 'Edit'}
+        </button>
       </div>
       <div className="application-card-content">
+        {isEditing ? (
+          <form onSubmit={handleSave} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'grid', gap: '6px' }}>
+              <input value={draft.companyName} onChange={e => handleChange('companyName', e.target.value)} />
+              <input value={draft.jobTitle} onChange={e => handleChange('jobTitle', e.target.value)} />
+              <input value={draft.jobType} onChange={e => handleChange('jobType', e.target.value)} />
+              <input value={draft.location} onChange={e => handleChange('location', e.target.value)} />
+              <input value={draft.term || ''} onChange={e => handleChange('term', e.target.value)} />
+              <input value={draft.length || ''} onChange={e => handleChange('length', e.target.value)} />
+              <input type="number" min={1} max={5} value={draft.interestLevel} onChange={e => handleChange('interestLevel', Number(e.target.value))} />
+              <input value={draft.details || ''} onChange={e => handleChange('details', e.target.value)} />
+              <input value={draft.link} onChange={e => handleChange('link', e.target.value)} />
+              <input value={draft.status || ''} onChange={e => handleChange('status', e.target.value)} />
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button type="submit" style={{ background: currentTheme.secondary, color: 'white' }}>Save</button>
+                <button type="button" onClick={handleToggleEdit}>Cancel</button>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <>
         <h3 
           className="application-name" 
           style={{ 
@@ -162,6 +223,8 @@ const ApplicationCard: React.FC<ApplicationCardProps> = ({ application, onRemove
         <div style={{ color: currentTheme.secondary, fontSize: '0.75rem', marginTop: '4px' }}>
           <strong>Details:</strong> {application.details && application.details.trim() ? application.details : '-----'}
         </div>
+          </>
+        )}
       </div>
     </div>
   );

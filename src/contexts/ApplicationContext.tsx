@@ -7,6 +7,7 @@ interface ApplicationContextType {
   removeApplication: (id: string) => void;
   updateApplicationStatus: (id: string, status: string) => void;
   updateApplicationInterest: (id: string, interestLevel: number) => void;
+  updateApplication: (id: string, updates: Partial<JobApplication>) => void;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(undefined);
@@ -92,6 +93,10 @@ export const ApplicationProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const updateApplicationInterest = (id: string, interestLevel: number) => {
     setApplications(prev => prev.map(app => app.id === id ? { ...app, interestLevel } : app));
   };
+  
+  const updateApplication = (id: string, updates: Partial<JobApplication>) => {
+    setApplications(prev => prev.map(app => app.id === id ? { ...app, ...updates } : app));
+  };
 
   return (
     <ApplicationContext.Provider value={{
@@ -99,7 +104,8 @@ export const ApplicationProvider: React.FC<{ children: React.ReactNode }> = ({ c
       addApplication,
       removeApplication,
       updateApplicationStatus,
-      updateApplicationInterest
+      updateApplicationInterest,
+      updateApplication
     }}>
       {children}
     </ApplicationContext.Provider>
