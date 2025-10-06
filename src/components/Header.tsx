@@ -39,8 +39,7 @@ const Header: React.FC = () => {
               background: currentTheme.secondary.startsWith('linear-gradient')
                 ? currentTheme.secondary
                 : `linear-gradient(135deg, ${currentTheme.secondary} 0%, ${currentTheme.secondary} 100%)`,
-              color: 'transparent',
-              WebkitTextStroke: `0.81px ${currentTheme.outline}`,
+              color: currentTheme.outline,
               fontFamily: currentTheme.font,
               fontWeight: 700,
               fontSize: '0.93rem', // another 10% smaller
@@ -56,9 +55,7 @@ const Header: React.FC = () => {
             }}
           >
             <span style={{
-              background: currentTheme.outline,
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: currentTheme.outline,
               fontFamily: currentTheme.font,
               fontWeight: 700,
               fontSize: '0.93rem', // another 10% smaller
